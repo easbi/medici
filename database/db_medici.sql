@@ -189,8 +189,8 @@ CREATE TABLE `mcu_pemeriksaan` (
   `gula_sewaktu` int(11) DEFAULT NULL,
   `kolestrol` int(11) NOT NULL,
   `rekomendasi` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
