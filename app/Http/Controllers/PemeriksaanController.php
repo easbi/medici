@@ -168,8 +168,20 @@ class PemeriksaanController extends Controller
             ->join('master_petugas', 'mcu_pemeriksaan.petugas', '=', 'master_petugas.id')  
             ->select('mcu_pemeriksaan.*', 'master_pegawai.nama_pegawai', 'master_petugas.nama_petugas', 'master_pegawai.jenis_kelamin')
             ->where('id_user_diperiksa', '=', $id_user_diperiksa)
+            ->orderby('id', 'desc')
             ->get();
-        return view('pemeriksaan.show', compact('pemeriksaan'));
+        $data_fulan = $pemeriksaan->where('pemeriksaan_ke', $pemeriksaan->max('pemeriksaan_ke'))->first();
+
+        // $indikator1 = '';
+        // if ($data_fulan->jenis_kelamin = "P" && ($data_fulan->asam_urat > 6.0)) {
+        //     $indikator1 = 'PR AU';
+        // } elseif ($data_fulan->jenis_kelamin = "L" && ($data_fulan->asam_urat > 7.0)) {
+        //     $indikator1 = 'LK AU';
+        // } else {
+        //     $indikator1 = 'SEHAT!!';
+        // }
+        
+        return view('pemeriksaan.show', compact('data_fulan','pemeriksaan'));
     }
 
     /**

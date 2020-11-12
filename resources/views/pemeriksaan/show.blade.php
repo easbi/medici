@@ -26,17 +26,27 @@
         <div class="row">
             <div class="col-12 col-sm-4 col-md-4">
                 <!-- Apply any bg-* class to to the info-box to color it -->
+                @if ($data_fulan->tensi_sistol > 120 || $data_fulan->tensi_diastol > 80)
                 <div class="info-box bg-red">
-                  <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+                @else
+                <div class="info-box bg-success">
+                @endif
+                  <span class="info-box-icon"><i class="fas fa-heartbeat"></i></span>
                   <div class="info-box-content">
                     <span class="info-box-text">Darah Tinggi</span>
-                    <span class="info-box-number">260</span>
+                    <span class="info-box-number">{{ $data_fulan->tensi_sistol }} / {{ $data_fulan->tensi_diastol }}</span>
                     <!-- The progress section is optional -->
                     <div class="progress">
-                      <div class="progress-bar" style="width: 70%"></div>
+                      <div class="progress-bar" style="width: 100%"></div>
                     </div>
                     <span class="progress-description">
-                        #saatnya menjaga pola kesehatan anda
+                        @if ($data_fulan->jenis_kelamin == "L" && ($data_fulan->tensi_sistol > 120 || $data_fulan->tensi_diastol > 80))
+                            #Saatnya pola hidup sehat, Pak
+                        @elseif ($data_fulan->jenis_kelamin == "P" && ($data_fulan->tensi_sistol > 120 || $data_fulan->tensi_diastol > 80))
+                            #Saatnya pola hidup sehat, Bu
+                        @else 
+                            #Pertahankan pola sehatnya
+                        @endif
                     </span>
                   </div>
                   <!-- /.info-box-content -->
@@ -46,17 +56,27 @@
 
             <div class="col-12 col-sm-4 col-md-4">
                 <!-- Apply any bg-* class to to the info-box to color it -->
+                @if (($data_fulan->jenis_kelamin == "P" && $data_fulan->asam_urat > 6.0) || ($data_fulan->jenis_kelamin == "L" && $data_fulan->asam_urat > 7.0))
                 <div class="info-box bg-red">
-                  <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+                @else
+                <div class="info-box bg-success">
+                @endif
+                  <span class="info-box-icon"><i class="fas fa-user-md"></i></span>
                   <div class="info-box-content">
                     <span class="info-box-text">Asam Urat</span>
-                    <span class="info-box-number">6,5</span>
+                    <span class="info-box-number">{{ $data_fulan->asam_urat }}</span>
                     <!-- The progress section is optional -->
                     <div class="progress">
-                      <div class="progress-bar" style="width: 70%"></div>
+                      <div class="progress-bar" style="width: 100%"></div>
                     </div>
                     <span class="progress-description">
-                        #sehat
+                        @if ($data_fulan->jenis_kelamin == "L" && $data_fulan->asam_urat > 7.0)
+                            #Saatnya pola hidup sehat, Pak
+                        @elseif ($data_fulan->jenis_kelamin == "P" && $data_fulan->asam_urat > 6.0)
+                            #Saatnya pola hidup sehat, Bu
+                        @else 
+                            #Pertahankan pola sehatnya
+                        @endif
                     </span>
                   </div>
                   <!-- /.info-box-content -->
@@ -66,17 +86,27 @@
 
             <div class="col-12 col-sm-4 col-md-4">
                 <!-- Apply any bg-* class to to the info-box to color it -->
+                @if ($data_fulan->kolestrol > 230)
                 <div class="info-box bg-red">
-                  <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+                @else
+                <div class="info-box bg-success">
+                @endif
+                  <span class="info-box-icon"><i class="fas fa-weight"></i></span>
                   <div class="info-box-content">
                     <span class="info-box-text">Kolestrol</span>
-                    <span class="info-box-number">410</span>
+                    <span class="info-box-number">{{ $data_fulan->kolestrol }}</span>
                     <!-- The progress section is optional -->
                     <div class="progress">
-                      <div class="progress-bar" style="width: 70%"></div>
+                      <div class="progress-bar" style="width: 100%"></div>
                     </div>
                     <span class="progress-description">
-                      #saatnya menjaga pola kesehatan anda
+                        @if ($data_fulan->jenis_kelamin == "L" && $data_fulan->kolestrol > 230)
+                            #Saatnya pola hidup sehat, Pak
+                        @elseif ($data_fulan->jenis_kelamin == "P" && $data_fulan->kolestrol > 230)
+                            #Saatnya pola hidup sehat, Bu
+                        @else
+                            #Pertahankan pola sehatnya
+                        @endif
                     </span>
                   </div>
                   <!-- /.info-box-content -->
