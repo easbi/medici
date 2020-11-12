@@ -161,9 +161,15 @@ class PemeriksaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_user_diperiksa)
     {
-        //
+        $pemeriksaan = DB::table('mcu_pemeriksaan')
+            ->join('master_pegawai', 'mcu_pemeriksaan.id_user_diperiksa', '=', 'master_pegawai.id')
+            ->join('master_petugas', 'mcu_pemeriksaan.petugas', '=', 'master_petugas.id')  
+            ->select('mcu_pemeriksaan.*', 'master_pegawai.nama_pegawai', 'master_petugas.nama_petugas', 'master_pegawai.jenis_kelamin')
+            ->where('id_user_diperiksa', '=', $id_user_diperiksa)
+            ->get();
+        return view('pemeriksaan.show', compact('pemeriksaan'));
     }
 
     /**
