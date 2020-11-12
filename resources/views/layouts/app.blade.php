@@ -23,11 +23,13 @@
 		<nav class="navbar navbar-dark bg-primary">
 			<a href='http://pusdiklat.bps.go.id' style="float:left;"><img src="{{asset('images/bps.png')}}" alt style="height:35px; font-style: 14;" > PUSDIKLAT BPS</a>
 		</nav>
-		<div class="container-fluid">
-			@yield('content')
-		</div>
+		<section class="content">
+			<div class="container-fluid">
+				@yield('content')
+			</div>
+		</section>
 		<footer>
-			<strong>Copyright &copy; 2002 <a href="http://pusdiklat.bps.go.id">Pusdiklat BPS</a>.</strong> All rights reserved.
+			<strong>Copyright &copy; 2020 <a href="http://pusdiklat.bps.go.id">Pusdiklat BPS</a>.</strong> Made With Love.
 			<div class="float-right d-none d-sm-inline-block">
 				<b>Version</b> 1.0.0
 			</div>
