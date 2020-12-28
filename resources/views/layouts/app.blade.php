@@ -31,10 +31,13 @@
 						<a class="nav-link disabled" href="#"></a>
 					</li>
 			      <li class="nav-item active">
-			        <a class="nav-link" href="{{ url('/pemeriksaan') }}">Dashboard<span class="sr-only">(current)</span></a>
+			        <a class="nav-link" href="{{ url('/pemeriksaanmcu') }}">Dashboardku<span class="sr-only">(current)</span></a>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="{{ url('/pemeriksaan/create') }}">Tambah Data</a>
+			        <a class="nav-link" href="{{ url('/pemeriksaannonmcu/create') }}">Input Data Non MCU</a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="{{ url('/pemeriksaanmcu/create') }}">Input Data MCU</a>
 			      </li>
 			    </ul>
 			 </div>

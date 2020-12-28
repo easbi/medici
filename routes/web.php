@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PemeriksaanController;
+use App\Http\Controllers\TransasinonmcuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,6 @@ Route::get('/', function () {
 });
 
 Route::get('autocomplete', [PemeriksaanController::class, 'autocomplete'])->name('autocomplete');
-Route::resource('pemeriksaan', PemeriksaanController::class);
+Route::resource('pemeriksaanmcu', PemeriksaanController::class);
+
+Route::resource('pemeriksaannonmcu', TransasinonmcuController::class);

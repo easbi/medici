@@ -217,9 +217,9 @@
                             <td>{{ $pemeriksaan->gula_puasa }}</td>
                             <td>{{ $pemeriksaan->kolestrol }}</td> 
                             <td>
-                                <form action="{{ route('pemeriksaan.destroy',$pemeriksaan->id) }}" method="POST">
-                                    <a class="btn btn-info" href="{{ route('pemeriksaan.show',$pemeriksaan->id_user_diperiksa) }}">Show</a>
-                                    <a class="btn btn-primary" href="{{ route('pemeriksaan.edit',$pemeriksaan->id) }}">Edit</a>
+                                <form action="{{ route('pemeriksaanmcu.destroy',$pemeriksaan->id) }}" method="POST">
+                                    <a class="btn btn-info" href="{{ route('pemeriksaanmcu.show',$pemeriksaan->id_user_diperiksa) }}">Show</a>
+                                    <a class="btn btn-primary" href="{{ route('pemeriksaanmcu.edit',$pemeriksaan->id) }}">Edit</a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>

@@ -70,7 +70,7 @@ class PemeriksaanController extends Controller
         // $asam_urat_periode = json_encode(array_keys($darah_tinggi_by_pemeriksaan), JSON_NUMERIC_CHECK);
         // $asam_urat_jumlah = json_encode(array_values($darah_tinggi_by_pemeriksaan), JSON_NUMERIC_CHECK);
 
-        return view('pemeriksaan.index', compact('pemeriksaans', 'kolestrol', 'asam_urat', 'darah_tinggi', 
+        return view('pemeriksaanmcu.index', compact('pemeriksaans', 'kolestrol', 'asam_urat', 'darah_tinggi', 
             'darah_tinggi_jumlah', 'darah_tinggi_periode'));
         // return view('pemeriksaan.dashboard');
     }
@@ -86,7 +86,7 @@ class PemeriksaanController extends Controller
 
         $nama_pegawai = DB::table('master_pegawai')->pluck('nama_pegawai', 'id');
         $nama_petugas = DB::table('master_petugas')->pluck('nama_petugas', 'id');
-        return view('pemeriksaan.create', compact('nama_pegawai', 'nama_petugas'));
+        return view('pemeriksaanmcu.create', compact('nama_pegawai', 'nama_petugas'));
     }
 
 
@@ -148,10 +148,10 @@ class PemeriksaanController extends Controller
         // dd($request->rekomendasi);
         if($pemeriksaan){
             //redirect dengan pesan sukses
-            return redirect()->route('pemeriksaan.create')->with(['success' => 'Data Berhasil Disimpan!']);
+            return redirect()->route('pemeriksaanmcu.create')->with(['success' => 'Data Berhasil Disimpan!']);
         }else{
             //redirect dengan pesan error
-            return redirect()->route('pemeriksaan.index')->with(['error' => 'Data Gagal Disimpan!']);
+            return redirect()->route('pemeriksaanmcu.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
 
@@ -181,7 +181,7 @@ class PemeriksaanController extends Controller
         //     $indikator1 = 'SEHAT!!';
         // }
         
-        return view('pemeriksaan.show', compact('data_fulan','pemeriksaan'));
+        return view('pemeriksaanmcu.show', compact('data_fulan','pemeriksaan'));
     }
 
     /**

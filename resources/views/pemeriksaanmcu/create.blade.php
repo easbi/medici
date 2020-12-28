@@ -17,7 +17,7 @@
                 <div class="col-md-12">
                     <div class="card border-0 shadow rounded">
                         <div class="card-body">
-                            <form action="{{route('pemeriksaan.store')}}" method="POST" enctype="multipart/form-data">                        
+                            <form action="{{route('pemeriksaanmcu.store')}}" method="POST" enctype="multipart/form-data">                        
                                 @csrf
                                 <div class="form-group">
                                     <label for="petugas">Nama Petugas</label>
