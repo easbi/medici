@@ -9,7 +9,15 @@
     }
 </style>
 
-<div class="row">
+<div class="row">    
+    @if ($message = Session::get('success'))
+        <div class="col-sm-4 col-md-4">
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>{{ $message }}</p>
+            </div>
+        </div>
+    @endif
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -19,7 +27,6 @@
                             <th scope="col">#</th>
                             <th scope="col">Tanggal Pemeriksaan</th>
                             <th scope="col">Nama Pegawai</th>
-                            <th scope="col">Petugas</th>
                             <th scope="col">Jenis Pemeriksaan</th>
                             <th scope="col">Nilai</th>                            
                             <th scope="col">Action</th>
@@ -27,29 +34,17 @@
                     </thead>
                     <tbody>
                         <?php $no = 1; ?>
-                        @forelse($pemeriksaans as $pemeriksaan)
+                        @forelse($nonmcu_pemeriksaans as $nmp)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $pemeriksaan->pemeriksaan_ke }}</td>
-                            <td>{{ $pemeriksaan->tgl_pemeriksaan }}</td>
-                            <td>{{ $pemeriksaan->nama_pegawai }}</td>
-                            <td>{{ $pemeriksaan->nama_petugas }}</td>                            
-                            <td>{{ $pemeriksaan->unit_kerja }}</td>
-                            <td>{{ $pemeriksaan->tinggi_badan }}</td>
-                            <td>{{ $pemeriksaan->berat_badan }}</td>
-                            <td>{{ $pemeriksaan->suhu }}</td>
-                            <td>{{ $pemeriksaan->nadi }}</td>
-                            <td>{{ $pemeriksaan->pernapasan }}</td>
-                            <td>{{ $pemeriksaan->saturasi }}</td>
-                            <td>{{ $pemeriksaan->tensi_sistol }}</td>
-                            <td>{{ $pemeriksaan->tensi_diastol }}</td>
-                            <td>{{ $pemeriksaan->asam_urat }}</td>
-                            <td>{{ $pemeriksaan->gula_puasa }}</td>
-                            <td>{{ $pemeriksaan->kolestrol }}</td> 
+                            <td>{{ $nmp->tgl_pemeriksaan }}</td>
+                            <td>{{ $nmp->nama_pegawai }}</td> 
+                            <td>{{ $nmp->jenis_pemeriksaan }}</td>                            
+                            <td>{{ $nmp->nilai }}</td>
                             <td>
-                                <form action="{{ route('pemeriksaanmcu.destroy',$pemeriksaan->id) }}" method="POST">
-                                    <a class="btn btn-info" href="{{ route('pemeriksaanmcu.show',$pemeriksaan->id_user_diperiksa) }}">Show</a>
-                                    <a class="btn btn-primary" href="{{ route('pemeriksaanmcu.edit',$pemeriksaan->id) }}">Edit</a>
+                                <form action="{{ route('pemeriksaannonmcu.destroy',$nmp->id) }}" method="POST">
+                                    <a class="btn btn-info" href="{{ route('pemeriksaannonmcu.show',$nmp->id_user_diperiksa) }}">Show</a>
+                                    <a class="btn btn-primary" href="{{ route('pemeriksaannonmcu.edit',$nmp->id) }}">Edit</a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>

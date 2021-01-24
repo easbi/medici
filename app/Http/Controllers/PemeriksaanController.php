@@ -4,8 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Session;
 use App\Models\Pemeriksaan;
 use App\Models\Pegawai;
+use App\Exports\PemeriksaanExport;
+use App\Imports\McuImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+
+
 
 class PemeriksaanController extends Controller
 {
@@ -23,6 +30,7 @@ class PemeriksaanController extends Controller
             ->select('mcu_pemeriksaan.*', 'master_pegawai.nama_pegawai', 'master_petugas.nama_petugas', 'master_pegawai.jenis_kelamin', 'master_pegawai.unit_kerja')
             ->orderby('mcu_pemeriksaan.id','asc')
             ->get();
+        // dd($pemeriksaans);
         $MaxPemeriksaan = DB::table('mcu_pemeriksaan')->max('pemeriksaan_ke');
 
         // Darah tinggi
@@ -82,8 +90,6 @@ class PemeriksaanController extends Controller
      */
     public function create()
     {
-
-
         $nama_pegawai = DB::table('master_pegawai')->pluck('nama_pegawai', 'id');
         $nama_petugas = DB::table('master_petugas')->pluck('nama_petugas', 'id');
         return view('pemeriksaanmcu.create', compact('nama_pegawai', 'nama_petugas'));
@@ -155,6 +161,42 @@ class PemeriksaanController extends Controller
         }
     }
 
+    public function create_import()
+    {
+        return view('pemeriksaanmcu.importexcel');
+    }
+
+    public function export_excel() 
+    {
+        return Excel::download(new PemeriksaanExport, 'mcu.xlsx');
+    }
+
+    public function import_excel(Request $request) 
+    {
+        // validasi
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+ 
+        // menangkap file excel
+        $file = $request->file('file');
+ 
+        // membuat nama file unik
+        $nama_file = rand().$file->getClientOriginalName();
+ 
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('file_import',$nama_file);
+ 
+        // import data
+        Excel::import(new McuImport, public_path('/file_import/'.$nama_file));
+ 
+        // notifikasi dengan session
+        // Session::flash('sukses','Data Berhasil Diimport!');
+ 
+        // alihkan halaman kembali
+        return redirect('/pemeriksaanmcu');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -192,7 +234,11 @@ class PemeriksaanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $nama_pegawai = DB::table('master_pegawai')->get();
+        $nama_petugas = DB::table('master_petugas')->get();
+        $pemeriksaanmcu = DB::table('mcu_pemeriksaan')->where('id', $id)->first();
+        // dd($nama_pegawai);
+        return view('pemeriksaanmcu.edit', compact('pemeriksaanmcu', 'nama_pegawai', 'nama_petugas'));
     }
 
     /**
@@ -204,7 +250,29 @@ class PemeriksaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pemeriksaanmcu = \App\Models\Pemeriksaan::find($id);
+        $request->validate([
+            'tgl_pemeriksaan' => 'required',
+            'nama_pegawai' => 'required',
+            'umur' => 'required',
+            'petugas' => 'required',
+            'tinggi_badan' => 'required|numeric|max:200',
+            'berat_badan' => 'required|numeric',
+            'suhu' => 'required',
+            'nadi' => 'required|numeric',
+            'pernapasan' => 'required|numeric',
+            'saturasi' => 'required|numeric',
+            'tensi_sistol' => 'required',
+            'tensi_diastol' => 'required',
+            'asam_urat' => 'required',
+            'gula_puasa' => 'required|numeric',
+            'kolestrol' => 'required|numeric',
+            'rekomendasi' => 'required'
+        ]);
+
+        Pemeriksaan::find($id)->update($request->all());
+
+        return redirect()->route('pemeriksaanmcu.index')->with(['success' => 'Data Berhasil Diupdate!']);
     }
 
     /**
@@ -215,7 +283,9 @@ class PemeriksaanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $transaksi = \App\Models\Pemeriksaan::find($id);
+        $transaksi->delete();
+        return redirect('pemeriksaanmcu')->with('success','Data Pemeriksaan MCU telah dihapus');
     }
 
 

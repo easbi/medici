@@ -9,7 +9,7 @@ class Pemeriksaan extends Model
 {
     use HasFactory;
     protected $table = 'mcu_pemeriksaan';
-    public $primaryKey = 'id_transaksi';
+    public $primaryKey = 'id';
     protected $fillable = [
     	'id_user_diperiksa',
     	'tgl_pemeriksaan',
