@@ -40,39 +40,54 @@ class McuController extends Controller
         // dd($mcu);
         $MaxPemeriksaan = DB::table('mcu_pemeriksaan')->max('pemeriksaan_ke');
 
-        // Darah tinggi
+        
+        // Status MCU Terakhir 
         $darah_tinggi = DB::table('mcu_pemeriksaan')
-            ->where('tensi_sistol', '>', 120)
-            ->orWhere('tensi_diastol', '>', 80)
+            ->where('status_tensi', '=', 1)
             ->get();
 
         $darah_tinggi = $darah_tinggi->where('pemeriksaan_ke', '=', $MaxPemeriksaan)->count();
-        // kolestrol
         $kolestrol = DB::table('mcu_pemeriksaan')
             ->where('pemeriksaan_ke', '=', $MaxPemeriksaan)
             ->where('kolestrol', '>', 230)->count();
-        
-        // asam urat
-        $asam_urat_p = $mcu->where('jenis_kelamin', '=', 'P')->where('asam_urat', '>', '6')->where('pemeriksaan_ke', '=', $MaxPemeriksaan)->count();        
-        $asam_urat_l = $mcu->where('jenis_kelamin', '=', 'L')->where('asam_urat', '>', '7')->where('pemeriksaan_ke', '=', $MaxPemeriksaan)->count();
-        $asam_urat = $asam_urat_p + $asam_urat_l;
+
+        $asam_urat = $mcu->where('status_asam_urat', '=', '1')->where('pemeriksaan_ke', '=', $MaxPemeriksaan)->count(); 
 
         // Darah tinggi by pemeriksaan_ke
-        $darah_tinggi_by_pemeriksaan = DB::table('mcu_pemeriksaan')->select('pemeriksaan_ke', DB::raw('if(tensi_diastol > 80 AND tensi_sistol > 120, 1, 0) as jumlah'))->get();  
-
-        // dd($darah_tinggi_by_pemeriksaan);
+        $darah_tinggi_by_pemeriksaan = DB::table('mcu_pemeriksaan')->select('pemeriksaan_ke', DB::raw('if(status_tensi = 1, 1, 0) as jumlah'))->get();  
         $darah_tinggi_by_pemeriksaan = $darah_tinggi_by_pemeriksaan->groupby('pemeriksaan_ke')
             ->map(function ($row) {
                 return $row->sum('jumlah');
             })
             ->toArray();;
-        // dd($darah_tinggi_by_pemeriksaan);
         $darah_tinggi_periode = json_encode(array_keys($darah_tinggi_by_pemeriksaan), JSON_NUMERIC_CHECK);
         $darah_tinggi_jumlah = json_encode(array_values($darah_tinggi_by_pemeriksaan), JSON_NUMERIC_CHECK);
 
+         // Asam Urat by pemeriksaan_ke
+        $asam_urat_by_pemeriksaan = DB::table('mcu_pemeriksaan')->select('pemeriksaan_ke', DB::raw('if(status_asam_urat = 1, 1, 0) as jumlah'))->get();  
+        $asam_urat_by_pemeriksaan = $asam_urat_by_pemeriksaan->groupby('pemeriksaan_ke')
+            ->map(function ($row) {
+                return $row->sum('jumlah');
+            })
+            ->toArray();;
+        $asam_urat_periode = json_encode(array_keys($asam_urat_by_pemeriksaan), JSON_NUMERIC_CHECK);
+        $asam_urat_jumlah = json_encode(array_values($asam_urat_by_pemeriksaan), JSON_NUMERIC_CHECK);
+
+        // Kolestrol by pemeriksaan_ke
+        $kolestrol_by_pemeriksaan = DB::table('mcu_pemeriksaan')->select('pemeriksaan_ke', DB::raw('if(status_kolestrol = 1, 1, 0) as jumlah'))->get();  
+        $kolestrol_by_pemeriksaan = $kolestrol_by_pemeriksaan->groupby('pemeriksaan_ke')
+            ->map(function ($row) {
+                return $row->sum('jumlah');
+            })
+            ->toArray();;
+        $kolestrol_periode = json_encode(array_keys($kolestrol_by_pemeriksaan), JSON_NUMERIC_CHECK);
+        $kolestrol_jumlah = json_encode(array_values($kolestrol_by_pemeriksaan), JSON_NUMERIC_CHECK);
+
         return view('mcu.index', compact('mcu', 'kolestrol', 'asam_urat', 'darah_tinggi', 
-            'darah_tinggi_jumlah', 'darah_tinggi_periode'));
-        // return view('pemeriksaan.dashboard');
+            'darah_tinggi_jumlah', 'darah_tinggi_periode',
+            'asam_urat_jumlah', 'asam_urat_periode',
+            'kolestrol_jumlah', 'kolestrol_periode'
+        ));
     }
 
     /**
@@ -158,6 +173,44 @@ class McuController extends Controller
             $noPemeriksaanMax++;
         }
 
+        $mcu = DB::table('users')
+            ->where('users.id', '=', $request->nama_pegawai)
+            ->select('username', 'nama', 'jenis_kelamin', 'unit_kerja')
+            ->first();
+
+        // cek status tensi tinggi
+        if ($request->umur >= 50 &&  $request->tensi_sistol > 130 && $request->tensi_diastol > 80) {
+            $status_tensi = 1;
+        } else if ($request->umur > 50) { 
+            $status_tensi = 0;
+        }
+
+        if ($request->umur < 50 &&  $request->tensi_sistol > 120 && $request->tensi_diastol > 80) {
+            $status_tensi = 1;
+        } else if ($request->umur < 50) { 
+            $status_tensi = 0;
+        }
+
+        // cek status asam urat
+        if ($mcu->jenis_kelamin == "P" &&  $request->asam_urat > 5.7) {
+            $status_asam_urat = 1;
+        } else if ($mcu->jenis_kelamin == "L" &&  $request->asam_urat > 7) {
+             $status_asam_urat = 1;
+        } else {
+            $status_asam_urat = 0;
+        }
+
+        // cek status kolestrol
+        if ($request->kolestrol > 200) {
+            $status_kolestrol = 1;
+        } else {
+            $status_kolestrol = 0;
+        }
+
+
+        // dd($status_tensi);
+
+
         $pemeriksaan = Mcu::create([            
             'id_user_diperiksa'  =>  $request->nama_pegawai,
             'tgl_pemeriksaan'     => $request->tgl_pemeriksaan,
@@ -176,6 +229,9 @@ class McuController extends Controller
             'gula_puasa'   => $request->gula_puasa,
             'gula_sewaktu' => $request->gula_sewaktu,
             'kolestrol'   => $request->kolestrol,
+            'status_tensi' => $status_tensi,
+            'status_asam_urat' => $status_asam_urat,
+            'status_kolestrol' => $status_kolestrol,
             'rekomendasi'   => $request->rekomendasi
         ]);
         // dd($request->rekomendasi);

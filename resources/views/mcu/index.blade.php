@@ -132,12 +132,12 @@
 
                                             // The data for our dataset
                                             data: {
-                                                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                                labels: <?php echo $asam_urat_periode; ?>,
                                                 datasets: [{
                                                     label: 'Kasus Asam Urat',
                                                     backgroundColor: 'rgb(255, 99, 132)',
                                                     borderColor: 'rgb(255, 99, 132)',
-                                                    data: [0, 10, 5, 2, 20, 30, 45]
+                                                    data: <?php echo $asam_urat_jumlah; ?>
                                                 }]
                                             },
 
@@ -158,12 +158,12 @@
                                         var chart = new Chart(ctx, {
                                             type: 'line',
                                             data: {
-                                                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                                labels: <?php echo $kolestrol_periode; ?>,
                                                 datasets: [{
                                                     label: 'Kasus Kolestrol',
                                                     backgroundColor: 'rgb(255, 99, 132)',
                                                     borderColor: 'rgb(255, 99, 132)',
-                                                    data: [0, 10, 5, 2, 20, 30, 45]
+                                                    data: <?php echo $kolestrol_jumlah; ?>,
                                                 }]
                                             },
                                             options: {}

@@ -27,7 +27,10 @@ class Mcu extends Model
     	'gula_puasa',
     	'gula_sewaktu',
     	'kolestrol',
-    	'rekomendasi'
+    	'rekomendasi',
+        'status_tensi',
+        'status_asam_urat',
+        'status_kolestrol'
     ];
 }
 
