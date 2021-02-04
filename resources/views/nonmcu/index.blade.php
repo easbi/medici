@@ -28,8 +28,10 @@
                             <th scope="col">Tanggal Pemeriksaan</th>
                             <th scope="col">Nama Pegawai</th>
                             <th scope="col">Jenis Pemeriksaan</th>
-                            <th scope="col">Nilai</th>                            
+                            <th scope="col">Nilai</th>    
+                            @if(Auth::user()->role == 1 OR Auth::user()->role == 3 OR Auth::user()->role == 4 OR Auth::user()->role == 5)                        
                             <th scope="col">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -44,10 +46,12 @@
                             <td>
                                 <form action="{{ route('nonmcu.destroy',$nmp->id) }}" method="POST">
                                     <a class="btn btn-info" href="{{ route('nonmcu.show',$nmp->id_user_diperiksa) }}">Show</a>
+                                    @if(Auth::user()->role == 1 OR Auth::user()->role == 3 OR Auth::user()->role == 4 OR Auth::user()->role == 5)
                                     <a class="btn btn-primary" href="{{ route('nonmcu.edit',$nmp->id) }}">Edit</a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
+                                    @endif
                                 </form>
                             </td>                                 
                         </tr>
