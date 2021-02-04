@@ -10,7 +10,7 @@
 </style>
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title">Status MCU Terakhir, @if ( Auth::user()->jenis_kelamin == "L") Bapak @else Bu @endif <b>{{ Auth::user()->nama }} </b></h5>
+        <h5 class="card-title">Status Pemeriksaan Terakhir, @if ( Auth::user()->jenis_kelamin == "L") Bapak @else Bu @endif <b>{{ Auth::user()->nama }} </b></h5>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
