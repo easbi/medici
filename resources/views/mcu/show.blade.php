@@ -168,7 +168,7 @@
                             <td>{{ $pemeriksaan->gula_puasa }}</td>
                             <td>{{ $pemeriksaan->gula_sewaktu }}</td>
                             <td>{{ $pemeriksaan->kolestrol }}</td>  
-                            <td></td>                                
+                            <td>{!! $pemeriksaan->rekomendasi !!}</td>                                
                         </tr>
                         @empty
                         <div class="alert alert-danger">
