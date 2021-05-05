@@ -181,7 +181,7 @@ class McuController extends Controller
         // cek status tensi tinggi
         if ($request->umur >= 50 &&  $request->tensi_sistol > 130 && $request->tensi_diastol > 80) {
             $status_tensi = 1;
-        } else if ($request->umur > 50) { 
+        } else if ($request->umur >= 50) { 
             $status_tensi = 0;
         }
 
