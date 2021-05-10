@@ -83,10 +83,19 @@ class McuController extends Controller
         $kolestrol_periode = json_encode(array_keys($kolestrol_by_pemeriksaan), JSON_NUMERIC_CHECK);
         $kolestrol_jumlah = json_encode(array_values($kolestrol_by_pemeriksaan), JSON_NUMERIC_CHECK);
 
+        //Cek not yet mcu
+        $id_terperiksa = Mcu::where('pemeriksaan_ke', $MaxPemeriksaan)->select('id_user_diperiksa')->get()->toArray();
+        $nama_yg_belum_terperiksa = DB::table('users')                 
+          ->select('nama', 'unit_kerja', 'email')
+          ->whereNotIn('id', $id_terperiksa)
+          ->get();
+
+        // dd($nama_yg_belum_terperiksa);
         return view('mcu.index', compact('mcu', 'kolestrol', 'asam_urat', 'darah_tinggi', 
             'darah_tinggi_jumlah', 'darah_tinggi_periode',
             'asam_urat_jumlah', 'asam_urat_periode',
-            'kolestrol_jumlah', 'kolestrol_periode'
+            'kolestrol_jumlah', 'kolestrol_periode',
+            'nama_yg_belum_terperiksa'
         ));
     }
 

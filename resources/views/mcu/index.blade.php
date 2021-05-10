@@ -175,101 +175,178 @@
                     </div>
                 </div><!-- /.card -->
             </div><!-- /.col -->
-        </div>
+</div>
 
-        @if(Auth::user()->role == 1 OR Auth::user()->role == 3 OR Auth::user()->role == 4 OR Auth::user()->role == 5)
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Data MCU</h5>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example" class="display" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Pemeriksaan Ke</th>
-                                    <th scope="col">Tanggal Pemeriksaan</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Unit</th>
-                                    <th scope="col">Suhu</th>
-                                    <th scope="col">nadi</th>
-                                    <th scope="col">Pernapasan</th>
-                                    <th scope="col">Saturasi</th>
-                                    <th scope="col">tensi Sistol</th>
-                                    <th scope="col">tensi Diastol</th>
-                                    <th scope="col">asam urat</th>
-                                    <th scope="col">Gula Puasa</th>
-                                    <th scope="col">Kolestrol</th> 
-                                    @if(Auth::user()->role == 1 OR Auth::user()->role == 3 OR Auth::user()->role == 4 OR Auth::user()->role == 5)
-                                    <th scope="col">Action</th>
-                                    @endif
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $no = 1; ?>
-                                @forelse($mcu as $pemeriksaan)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $pemeriksaan->pemeriksaan_ke }}</td>
-                                    <td>{{ $pemeriksaan->tgl_pemeriksaan }}</td>
-                                    <td>{{ $pemeriksaan->nama }}</td>                          
-                                    <td>{{ $pemeriksaan->unit_kerja }}</td>
-                                    <td>{{ $pemeriksaan->suhu }}</td>
-                                    <td>{{ $pemeriksaan->nadi }}</td>
-                                    <td>{{ $pemeriksaan->pernapasan }}</td>
-                                    <td>{{ $pemeriksaan->saturasi }}</td>
-                                    <td>{{ $pemeriksaan->tensi_sistol }}</td>
-                                    <td>{{ $pemeriksaan->tensi_diastol }}</td>
-                                    <td>{{ $pemeriksaan->asam_urat }}</td>
-                                    <td>{{ $pemeriksaan->gula_puasa }}</td>
-                                    <td>{{ $pemeriksaan->kolestrol }}</td>
-                                    <td>
-                                        <form action="{{ route('mcu.destroy',$pemeriksaan->id) }}" method="POST">
-                                            <a class="btn btn-info" href="{{ route('mcu.show',$pemeriksaan->id_user_diperiksa) }}">Show</a>
-                                            @if(Auth::user()->role == 1)
-                                                <a class="btn btn-primary" href="{{ route('mcu.edit',$pemeriksaan->id) }}">Edit</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            @endif
-                                        </form>
-                                    </td>                               
-                                </tr>
-                                @empty
-                                <div class="alert alert-danger">
-                                  Data Pemeriksaan belum Tersedia.
+                        @if(Auth::user()->role == 1 OR Auth::user()->role == 3 OR Auth::user()->role == 4 OR Auth::user()->role == 5)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table id="example" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Pemeriksaan Ke</th>
+                                                    <th scope="col">Tanggal Pemeriksaan</th>
+                                                    <th scope="col">Nama</th>
+                                                    <th scope="col">Unit</th>
+                                                    <th scope="col">Suhu</th>
+                                                    <th scope="col">nadi</th>
+                                                    <th scope="col">Pernapasan</th>
+                                                    <th scope="col">Saturasi</th>
+                                                    <th scope="col">tensi Sistol</th>
+                                                    <th scope="col">tensi Diastol</th>
+                                                    <th scope="col">asam urat</th>
+                                                    <th scope="col">Gula Puasa</th>
+                                                    <th scope="col">Kolestrol</th> 
+                                                    @if(Auth::user()->role == 1 OR Auth::user()->role == 3 OR Auth::user()->role == 4 OR Auth::user()->role == 5)
+                                                    <th scope="col">Action</th>
+                                                    @endif
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $no = 1; ?>
+                                                @forelse($mcu as $pemeriksaan)
+                                                <tr>
+                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $pemeriksaan->pemeriksaan_ke }}</td>
+                                                    <td>{{ $pemeriksaan->tgl_pemeriksaan }}</td>
+                                                    <td>{{ $pemeriksaan->nama }}</td>                          
+                                                    <td>{{ $pemeriksaan->unit_kerja }}</td>
+                                                    <td>{{ $pemeriksaan->suhu }}</td>
+                                                    <td>{{ $pemeriksaan->nadi }}</td>
+                                                    <td>{{ $pemeriksaan->pernapasan }}</td>
+                                                    <td>{{ $pemeriksaan->saturasi }}</td>
+                                                    <td>{{ $pemeriksaan->tensi_sistol }}</td>
+                                                    <td>{{ $pemeriksaan->tensi_diastol }}</td>
+                                                    <td>{{ $pemeriksaan->asam_urat }}</td>
+                                                    <td>{{ $pemeriksaan->gula_puasa }}</td>
+                                                    <td>{{ $pemeriksaan->kolestrol }}</td>
+                                                    <td>
+                                                        <form action="{{ route('mcu.destroy',$pemeriksaan->id) }}" method="POST">
+                                                            <a class="btn btn-info" href="{{ route('mcu.show',$pemeriksaan->id_user_diperiksa) }}">Show</a>
+                                                            @if(Auth::user()->role == 1)
+                                                            <a class="btn btn-primary" href="{{ route('mcu.edit',$pemeriksaan->id) }}">Edit</a>
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                            @endif
+                                                        </form>
+                                                    </td>                               
+                                                </tr>
+                                                @empty
+                                                <div class="alert alert-danger">
+                                                  Data Pemeriksaan belum Tersedia.
+                                              </div>
+                                              @endforelse
+                                          </tbody>
+                                      </table>  
+                                  </div>
                               </div>
-                              @endforelse
-                          </tbody>
-                      </table>  
+                          </div> 
+                      </div> 
                   </div>
-              </div>
-          </div> 
-        </div>
-        @endif
+              </div><!-- /.card -->
+          </div><!-- /.col -->
+      </div>
 
-      
-      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-      <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-      <script>
-    //message with toastr
-    @if(session()-> has('success'))     
-    toastr.success('{{ session('success') }}', 'BERHASIL!'); 
-    @elseif(session()-> has('error'))
-    toastr.error('{{ session('error') }}', 'GAGAL!'); 
-    @endif
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#example').DataTable({
-            responsive: true,
-            "scrollX": true,
-            "createdRow": function ( row, data, index ) {
-                if ( data[16] > 230 ) {
-                    $('td', row).eq(16).addClass('highlight');
+
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                        <h5 class="card-title">Data Belum MCU</h5>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                <div class="card-body">
+                    <table id="example2" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">Unit</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; ?>
+                            @forelse($nama_yg_belum_terperiksa as $nybt)
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $nybt->nama }}</td>
+                                <td>{{ $nybt->unit_kerja }}</td>
+                                <td>{{ $nybt->email }}</td>                                  
+                            </tr>
+                            @empty
+                            <div class="alert alert-danger">
+                              Data belum Tersedia.
+                          </div>
+                          @endforelse
+                      </tbody>
+                  </table>  
+              </div>
+          </div>
+      </div> 
+  </div>
+  @endif
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script>
+        //message with toastr
+        @if(session()-> has('success'))     
+        toastr.success('{{ session('success') }}', 'BERHASIL!'); 
+        @elseif(session()-> has('error'))
+        toastr.error('{{ session('error') }}', 'GAGAL!'); 
+        @endif
+    </script>
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#example').DataTable({
+                responsive: true,
+                "scrollX": true,
+                "createdRow": function ( row, data, index ) {
+                    if ( data[16] > 230 ) {
+                        $('td', row).eq(16).addClass('highlight');
+                    }
                 }
             }
-        }
-        );
-    } );
-</script>
-@endsection
+            );
+        } );
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#example2').DataTable({
+                responsive: true,
+                "scrollX": true
+            }
+            );
+        } );
+    </script>
+    @endsection
